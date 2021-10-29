@@ -66,7 +66,7 @@ export default function Home() {
 							<button onClick={handleDownload} className={styles.downloadBtn}>
 								Download
 							</button>
-							<button className={styles.uploadBtn} onClick={handleUpload}>
+							<button className={styles.uploadBtn} onClick={handleUpload} disabled={isLoading}>
 								{isLoading ? 'uploading...' : 'upload'}
 							</button>
 						</>
