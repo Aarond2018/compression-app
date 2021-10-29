@@ -9,6 +9,7 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [compressedImage, setCompressedImage] = useState();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleOnChange = (event) => {
 		setSelectedImage(event.target.files[0]);
@@ -32,13 +33,16 @@ export default function Home() {
 
 	const handleUpload = async () => {
 		const fileInBase64 = await readFileAsBase64(compressedImage);
+		setIsLoading(true);
 		try {
 			const res = await axios.post('/api/upload', {
 				file: fileInBase64,
 			});
-			alert(res.message);
+			alert(res.data.message);
 		} catch (error) {
 			console.log({ error });
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -63,7 +67,7 @@ export default function Home() {
 								Download
 							</button>
 							<button className={styles.uploadBtn} onClick={handleUpload}>
-								upload{' '}
+								{isLoading ? 'uploading...' : 'upload'}
 							</button>
 						</>
 					) : (
